@@ -5,18 +5,19 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
 import NewPost from './pages/NewPost';
+import PostDetail from './pages/PostDetail';
 
 function App() {
   return (
     <BrowserRouter>
       <Layout>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/posts/new" element={<NewPost />} />
-          {/* luego añadir rutas protegidas, posts/:id, etc. */}
+      <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/posts/new" element={<NewPost />} />
+            <Route path="/posts/:id" element={<PostDetail />} />
         </Routes>
       </Layout>
     </BrowserRouter>

@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 
 export default function Layout({ children }) {
   const navigate = useNavigate();
+  const token = localStorage.getItem('token');
+
   const handleLogout = () => {
     localStorage.removeItem('token');
     navigate('/login');
@@ -16,17 +18,22 @@ export default function Layout({ children }) {
         </h1>
         <div className="space-x-4">
           <Link to="/">Home</Link>
-          <Link to="/posts/new">New Post</Link>
-          <Link to="/profile">Profile</Link>
-          <button onClick={handleLogout} className="underline">Logout</button>
+          {token ? (
+            <>
+              <Link to="/posts/new">New Post</Link>
+              <Link to="/profile">Profile</Link>
+              <button onClick={handleLogout} className="underline">Logout</button>
+            </>
+          ) : (
+            <>
+              <Link to="/login">Login</Link>
+              <Link to="/register">Register</Link>
+            </>
+          )}
         </div>
       </nav>
-      <main className="flex-1 container mx-auto p-4">
-        {children}
-      </main>
-      <footer className="bg-gray-200 text-center py-4">
-        © 2025 BlogYou
-      </footer>
+      <main className="flex-1 container mx-auto p-4">{children}</main>
+      <footer className="bg-gray-200 text-center py-4">© 2025 BlogYou</footer>
     </div>
   );
 }
