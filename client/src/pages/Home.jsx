@@ -23,8 +23,9 @@ export default function Home() {
             <h3 className="text-xl font-semibold">{post.title}</h3>
             <p className="text-gray-600">por {post.User.username} • {new Date(post.createdAt).toLocaleString()}</p>
             <Link to={`/posts/${post.id}`} className="text-blue-600 underline mt-2 inline-block">
-              Leer más
+                Leer más
             </Link>
+
           </div>
         ))
       )}
