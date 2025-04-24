@@ -1,38 +1,37 @@
 // client/src/pages/PostDetail.jsx
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import api from '../api';
 
 export default function PostDetail() {
-  const { id } = useParams();            // Leer el :id de la URL
-  const [post, setPost] = useState(null);
-  const [comments, setComments] = useState([]);
+  const { id } = useParams();
+  const [post, setPost]           = useState(null);
+  const [comments, setComments]   = useState([]);
   const [newComment, setNewComment] = useState('');
 
   useEffect(() => {
-    // 1) Cargo el post
-    axios.get(`http://localhost:4000/api/posts/${id}`)
+    api.get(`/api/posts/${id}`)
       .then(res => setPost(res.data))
       .catch(console.error);
-    // 2) Cargo sus comentarios
-    axios.get(`http://localhost:4000/api/posts/${id}/comments`)
+
+    api.get(`/api/posts/${id}/comments`)
       .then(res => setComments(res.data))
       .catch(console.error);
   }, [id]);
 
-  // 3) Función para enviar un nuevo comentario
   const handleComment = async e => {
     e.preventDefault();
-    const token = localStorage.getItem('token');
     try {
-      const res = await axios.post(
-        `http://localhost:4000/api/posts/${id}/comments`,
+      const token = localStorage.getItem('token');
+      const res = await api.post(
+        `/api/posts/${id}/comments`,
         { content: newComment },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      setComments([...comments, res.data]);  // Añadir al listado
-      setNewComment('');                    // Limpiar textarea
+      setComments(prev => [...prev, res.data]);
+      setNewComment('');
     } catch (err) {
+      console.error(err);
       alert(err.response?.data?.message || 'Error al comentar');
     }
   };
@@ -44,7 +43,8 @@ export default function PostDetail() {
       <article>
         <h1 className="text-3xl font-bold">{post.title}</h1>
         <p className="text-gray-600">
-          por <strong>{post.User.username}</strong> • {new Date(post.createdAt).toLocaleString()}
+          por <strong>{post.User.username}</strong> •{' '}
+          {new Date(post.createdAt).toLocaleString()}
         </p>
         <div className="mt-4">{post.content}</div>
       </article>

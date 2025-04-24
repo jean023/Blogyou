@@ -1,7 +1,7 @@
 // client/src/pages/NewPost.jsx
 import { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import api from '../api';
 
 export default function NewPost() {
   const [title, setTitle]     = useState('');
@@ -12,12 +12,12 @@ export default function NewPost() {
     e.preventDefault();
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.post(
-        'http://localhost:4000/api/posts',
+      const res = await api.post(
+        '/api/posts',
         { title, content },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      // tras crear, redirect al detalle del post
+      // redirigir al detalle del post recién creado
       navigate(`/posts/${res.data.id}`);
     } catch (err) {
       console.error(err);

@@ -2,14 +2,13 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-
+import api from '../api';
 export default function Home() {
   const [posts, setPosts] = useState([]);
-
+  
+  
   useEffect(() => {
-    axios.get('http://localhost:4000/api/posts')
-      .then(res => setPosts(res.data))
-      .catch(err => console.error(err));
+    api.get('/api/posts').then(res => setPosts(res.data));
   }, []);
 
   return (
@@ -24,7 +23,7 @@ export default function Home() {
             <p className="text-gray-600">por {post.User.username} • {new Date(post.createdAt).toLocaleString()}</p>
             <Link to={`/posts/${post.id}`} className="text-blue-600 underline mt-2 inline-block">
                 Leer más
-            </Link>
+                </Link>
 
           </div>
         ))
