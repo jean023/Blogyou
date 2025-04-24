@@ -1,7 +1,7 @@
 // client/src/pages/Profile.jsx
 import { useEffect, useState } from 'react';
 import api from '../api';
-import jwtDecode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 export default function Profile() {
   const [posts, setPosts] = useState([]);
